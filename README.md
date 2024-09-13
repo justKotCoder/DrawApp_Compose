@@ -62,9 +62,25 @@ Defines the main activity for the drawing application.
         - `pathData`: Current path data state.
         - `pathList`: List of all path data states.
 
+### 3. PathData.kt
+
+Defines a data class for storing information about a drawing path.
+
+#### Components
+
+1. **PathData**
+    - Data class that includes:
+        - `path`: A Path object representing the drawing path.
+        - `color`: The color of the path (default is black).
+        - `lineWidth`: The width of the line (default is 5f).
+        - `cap`: The stroke cap type (default is round).
+
 ## Installation
 
 To use this project, clone the repository and open it in Android Studio.
 
+
 ```sh
+git clone https://github.com/justKotCoder/DrawApp_Compose.git
+
 
