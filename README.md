@@ -82,5 +82,15 @@ To use this project, clone the repository and open it in Android Studio.
 
 ```sh
 git clone https://github.com/justKotCoder/DrawApp_Compose.git
+```
+
+
+
+### Видео проекта
+
+
+
+https://github.com/user-attachments/assets/d98ee1e8-d106-48d9-a2ca-0ea1faf2a671
+
 
 
