@@ -1,6 +1,7 @@
 package com.example.drawapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -50,11 +51,18 @@ class MainActivity : ComponentActivity() {
                                 lineWidth = lineWidth
                             )
 
+                        },
+                        {
+                            pathList.removeIf{pathD ->
+                                pathList[pathList.size-1] == pathD
+                            }
                         }
                     ){
-                        pathList.removeIf{pathD ->
-                            pathList[pathList.size-1] == pathD
-                        }
+                        cap ->
+                        pathData.value = pathData.value.copy(
+                            cap = cap
+
+                        )
                     }
                 }
             }
@@ -104,8 +112,9 @@ fun DrawCanvas(pathData: MutableState<PathData>, pathList: SnapshotStateList<Pat
                 path = pathData.path,
                 color = pathData.color,
                 style = Stroke(pathData.lineWidth,
-                    cap = StrokeCap.Round)
+                    cap = pathData.cap)
             )
         }
+        Log.d("MyLog", "Size: ${pathList.size}")
     }
 }
