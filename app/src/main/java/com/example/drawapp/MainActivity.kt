@@ -13,12 +13,14 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.Snapshot
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
-import com.example.drawapp.ui.ButtonPanel
+import com.example.drawapp.ui.BottomPanel
 import com.example.drawapp.ui.PathData
 import com.example.drawapp.ui.theme.DrawAppTheme
 
@@ -30,22 +32,29 @@ class MainActivity : ComponentActivity() {
             val pathData = remember {
                 mutableStateOf(PathData())
             }
+            val pathList = remember {
+                mutableStateListOf(PathData())
+            }
             DrawAppTheme {
                 Column {
-                    DrawCanvas(pathData)
-                    ButtonPanel(
+                    DrawCanvas(pathData, pathList )
+                    BottomPanel(
                         {color ->
                         pathData.value = pathData.value.copy(
                             color = color
                             )
-                        }
-                    )
-                    {
-                        lineWidth ->
-                        pathData.value = pathData.value.copy(
-                            lineWidth = lineWidth
-                        )
+                        },
+                        {
+                                lineWidth ->
+                            pathData.value = pathData.value.copy(
+                                lineWidth = lineWidth
+                            )
 
+                        }
+                    ){
+                        pathList.removeIf{pathD ->
+                            pathList[pathList.size-1] == pathD
+                        }
                     }
                 }
             }
@@ -56,16 +65,14 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun DrawCanvas(pathData: MutableState<PathData>) {
+fun DrawCanvas(pathData: MutableState<PathData>, pathList: SnapshotStateList<PathData>) {
     var tempPath = Path()
-    val pathList = remember {
-        mutableStateListOf(PathData())
-    }
+
 
     androidx.compose.foundation.Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.75f)
+            .fillMaxHeight(0.70f)
             .pointerInput(true) {
                 detectDragGestures(
                     onDragStart = {
